@@ -1,7 +1,6 @@
 
-# Symbiosis_project
+# 🎓🏫📝 Institute Management System
 
-Institute Management System
 This is an Institute Management System built with Java and Spring Boot. It helps to manage attendance and analyze students’ marks in schools and colleges. Administrators can manage student data, monitor attendance, and track academic performance in a user-friendly way.
 
 # Features
