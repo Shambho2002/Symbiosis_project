@@ -3,28 +3,28 @@
 
 This is an Institute Management System built with Java and Spring Boot. It helps to manage attendance and analyze students’ marks in schools and colleges. Administrators can manage student data, monitor attendance, and track academic performance in a user-friendly way.
 
-# Features
+# ✨Features
 - ✅ Student attendance tracking
 - ✅ Marks management
 - ✅ Student record management
 - ✅ Role-based access for teachers and administrators
 - ✅ Reports and analysis
 
-# Tech Stack
+# 🛠️Tech Stack
 - Java (Spring Boot framework)
 
 - MySQL (or any relational database; update this if different)
 
 - Maven for dependency management
 
-# Prerequisites
+# 💻Prerequisites
 - Java 17 (or your target JDK version)
 
 - Maven (latest stable version)
 
 - MySQL (running on default port 3306 or your configured port)
 
-# Getting Started
+# 🚀Getting Started
 **1. Clone the repository:**
 
  - git clone https://github.com/yourusername/InstituteManagementSystem.git
@@ -52,7 +52,7 @@ This is an Institute Management System built with Java and Spring Boot. It helps
  - Typically: http://localhost:8080
  - Update if you have a different port
 
-# Usage
+# 📌Usage
 - Login with admin/teacher credentials (hardcoded or seeded in DB)
 
 - Manage student attendance
@@ -61,13 +61,13 @@ This is an Institute Management System built with Java and Spring Boot. It helps
 
 - Generate reports
 
-# Future Enhancements
+# 🔮Future Enhancements
 - ✅ Add RESTful API endpoints
 - ✅ Integrate front-end (React/Angular/Vue)
 - ✅ Add JWT-based authentication
 - ✅ Dockerize for easier deployment
 
-# Contributors
+# 🤝Contributors
 - Shambhu Sharma
 
 - Bagan Sarfaraj Nisar
