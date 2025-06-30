@@ -27,7 +27,7 @@ This is an Institute Management System built with Java and Spring Boot. It helps
 # 🚀Getting Started
 **1. Clone the repository:**
 
- - git clone https://github.com/yourusername/InstituteManagementSystem.git
+ - git clone https://github.com/Shambho2002/Symbiosis_project/tree/main/InstituteManagementSystem
  - cd InstituteManagementSystem
 
 **2. Configure the database:**
