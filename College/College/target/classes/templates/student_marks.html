@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Marks</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">My Marks</h2>
+
+    <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-primary text-white">
+            Filter Marks
+        </div>
+        <div class="card-body">
+            <form id="filterMarksForm">
+                <input type="hidden" name="studentId" th:value="${studentId}" />
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="classroomName" class="form-label">Your Classroom:</label>
+                        <input type="text" id="classroomName" class="form-control" th:value="${student.classroom.name}" readonly>
+                        <input type="hidden" id="classroomId" th:value="${student.classroom.id}">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="examTypeSelect" class="form-label">Select Exam Type:</label>
+                        <select id="examTypeSelect" name="examType" class="form-select" required>
+                            <option value="">-- Select Exam Type --</option>
+                            <option th:each="et : ${examTypes}" th:value="${et}" th:text="${et}"></option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <button type="button" class="btn btn-primary w-100" onclick="fetchMarks()">View My Marks</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card mt-4 shadow-sm">
+        <div class="card-header bg-info text-white">
+            My Academic Performance
+        </div>
+        <div class="card-body">
+            <div class="loading-spinner" id="loadingSpinner">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p>Loading marks...</p>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Subject Name</th>
+                            <th>Exam Type</th>
+                            <th>Marks Obtained</th>
+                        </tr>
+                    </thead>
+                    <tbody id="marksTableBody">
+                        <tr><td colspan="4" class="text-center">Please select an exam type to view your marks.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const studentId = /*[[${studentId}]]*/ null;
+
+    function fetchMarks() {
+        const classId = document.getElementById('classroomId').value;
+        const examType = document.getElementById('examTypeSelect').value;
+        const marksTableBody = document.getElementById('marksTableBody');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+
+        if (!examType) {
+            marksTableBody.innerHTML = '<tr><td colspan="4" class="text-center">Please select an exam type.</td></tr>';
+            return;
+        }
+
+        loadingSpinner.style.display = 'block';
+        marksTableBody.innerHTML = ''; // Clear existing rows
+
+        fetch(`/student/marks/list?classId=${classId}&examType=${examType}&studentId=${studentId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(marks => {
+                loadingSpinner.style.display = 'none';
+                if (marks.length === 0) {
+                    marksTableBody.innerHTML = '<tr><td colspan="4" class="text-center">No marks found for the selected exam type.</td></tr>';
+                } else {
+                    marks.forEach(mark => {
+                        const row = `
+                            <tr>
+                                <td>${mark.student.name}</td>
+                                <td>${mark.subject.name}</td>
+                                <td>${mark.examType}</td>
+                                <td><span class="badge bg-primary">${mark.marks}</span></td>
+                            </tr>
+                        `;
+                        marksTableBody.insertAdjacentHTML('beforeend', row);
+                    });
+                }
+            })
+            .catch(error => {
+                loadingSpinner.style.display = 'none';
+                console.error('Error fetching marks:', error);
+                marksTableBody.innerHTML = `<tr><td colspan="4" class="text-center text-danger">Error loading marks: ${error.message}</td></tr>`;
+            });
+    }
+    /*]]>*/
+</script>
+</body>
+</html>
